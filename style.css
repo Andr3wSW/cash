@@ -1,0 +1,948 @@
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f7f8;
+    text-align:center;
+    overflow:hidden;
+}
+
+/* APP */
+
+#app{
+    display:flex;
+    height:100vh;
+}
+
+#sidebar{
+    width:240px;
+    background:white;
+    border-right:2px solid #dddddd;
+    padding:15px;
+    z-index:10;
+}
+
+#sidebarMoney{
+
+    font-size:34px;
+    font-weight:bold;
+    color:#2e7d32;
+
+    margin-bottom:20px;
+
+    background:#e8f5e9;
+
+    border-radius:12px;
+
+    padding:10px;
+}
+
+.tabBtn{
+    width:100%;
+    padding:12px;
+    margin-bottom:10px;
+
+    border:none;
+    border-radius:10px;
+
+    background:#e8f5e9;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    transition:.2s;
+}
+
+.tabBtn:hover{
+    background:#c8e6c9;
+}
+
+#content{
+    flex:1;
+    padding:25px;
+    overflow-y:auto;
+}
+
+.tab{
+    display:none;
+}
+
+.tab.active{
+    display:block;
+}
+
+/* MONEY */
+
+#money{
+    font-size:60px;
+    color:#2e7d32;
+    font-weight:bold;
+}
+
+#coinTier{
+    margin-top:20px;
+}
+
+/* CLICKER */
+
+#coinContainer{
+    display:flex;
+    justify-content:center;
+    margin:30px;
+}
+
+#coin{
+    width:180px;
+    height:180px;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:70px;
+    font-weight:bold;
+
+    cursor:pointer;
+    user-select:none;
+
+    background:
+    linear-gradient(
+        135deg,
+        #c97b3b,
+        #a65b1d
+    );
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.2);
+
+    transition:
+    transform .15s;
+}
+
+#coin:hover{
+    transform:scale(1.05);
+}
+
+#coin:active{
+    transform:scale(.85);
+}
+
+#upgradeBtn{
+
+    padding:15px 30px;
+
+    border:none;
+    border-radius:12px;
+
+    font-size:18px;
+
+    background:#4caf50;
+    color:white;
+
+    cursor:pointer;
+}
+
+#upgradeBtn:hover{
+    background:#43a047;
+}
+
+/* FLOATING MONEY */
+
+.floatingMoney{
+
+    position:absolute;
+
+    color:#2e7d32;
+
+    font-size:28px;
+    font-weight:bold;
+
+    pointer-events:none;
+
+    animation:
+    floatUp 1s forwards;
+
+    z-index:999;
+}
+
+@keyframes floatUp{
+
+    from{
+        opacity:1;
+        transform:
+        translateY(0px);
+    }
+
+    to{
+        opacity:0;
+        transform:
+        translateY(-100px);
+    }
+
+}
+
+/* MONEY RAIN */
+
+#moneyRain{
+
+    position:fixed;
+
+    inset:0;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+    z-index:-1;
+}
+
+.dollar{
+
+    position:absolute;
+
+    color:
+    rgba(76,175,80,.15);
+
+    animation:
+    fall linear forwards;
+}
+
+@keyframes fall{
+
+    from{
+        transform:
+        translateY(-60px);
+    }
+
+    to{
+        transform:
+        translateY(110vh);
+    }
+
+}
+
+/* SPIN */
+
+@keyframes spin{
+
+    from{
+        transform:
+        rotateY(0deg);
+    }
+
+    to{
+        transform:
+        rotateY(360deg);
+    }
+
+}
+
+/* CASINO */
+
+.casinoSubtitle{
+    opacity:.7;
+}
+
+.casinoGrid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fit,
+        minmax(260px,1fr)
+    );
+
+    gap:20px;
+
+    max-width:1100px;
+
+    margin:auto;
+}
+
+.casinoCard{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    box-shadow:
+    0 4px 15px
+    rgba(0,0,0,.08);
+}
+
+.casinoCard:hover{
+
+    transform:
+    translateY(-5px);
+
+    box-shadow:
+    0 10px 25px
+    rgba(0,0,0,.12);
+}
+
+.casinoIcon{
+    font-size:55px;
+}
+
+/* GAME VIEW */
+
+#casinoGameView{
+
+    max-width:1000px;
+
+    margin:auto;
+}
+
+#backCasino{
+
+    border:none;
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    background:#e8f5e9;
+
+    margin-bottom:20px;
+}
+
+.gamePanel{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    box-shadow:
+    0 5px 20px
+    rgba(0,0,0,.08);
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+}
+
+.betInput{
+
+    width:180px;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    border:1px solid #ccc;
+
+    text-align:center;
+
+    font-size:18px;
+}
+
+.playBtn{
+
+    padding:12px 22px;
+
+    margin:8px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#4caf50;
+
+    color:white;
+
+    cursor:pointer;
+}
+
+.playBtn:hover{
+    background:#43a047;
+}
+
+/* COIN FLIP */
+
+.flipCoin{
+
+    width:180px;
+    height:180px;
+
+    margin:25px auto;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.2);
+}
+
+.headsCoin{
+    width:130px;
+    height:130px;
+
+    border-radius:50%;
+
+    position:relative;
+
+    background:
+    linear-gradient(
+        135deg,
+        #ffd54f,
+        #ffb300
+    );
+
+    box-shadow:
+    inset 0 0 0 10px #e6a800;
+}
+
+.headsCoin::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:8px;
+
+    background-image:
+    url("assets/lincoln.png");
+
+    background-size:contain;
+
+    background-repeat:no-repeat;
+
+    background-position:center;
+}
+
+.tailsCoin {
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    overflow:hidden;
+
+    background-color:#ffb300;
+
+    background-image:
+
+        linear-gradient(115deg,
+            transparent 50%,
+            #7a5200 50%),
+
+        linear-gradient(245deg,
+            transparent 50%,
+            #7a5200 50%),
+
+        linear-gradient(#7a5200,#7a5200),
+
+        /* Columns */
+        linear-gradient(#7a5200,#7a5200),
+        linear-gradient(#7a5200,#7a5200),
+        linear-gradient(#7a5200,#7a5200),
+        linear-gradient(#7a5200,#7a5200),
+        linear-gradient(#7a5200,#7a5200),
+        linear-gradient(#7a5200,#7a5200),
+
+        linear-gradient(#7a5200,#7a5200),
+        linear-gradient(#7a5200,#7a5200),
+
+        linear-gradient(
+            135deg,
+            #ffd54f,
+            #ffb300
+        );
+
+    background-size:
+
+        35px 12px,
+        35px 12px,
+
+        70px 5px,
+
+        4px 28px,
+        4px 28px,
+        4px 28px,
+        4px 28px,
+        4px 28px,
+        4px 28px,
+
+        76px 5px,
+        82px 7px,
+
+        100% 100%;
+
+    background-position:
+
+        30px 35px,
+        65px 35px,
+
+        30px 47px,
+
+        34px 52px,
+        44px 52px,
+        54px 52px,
+        74px 52px,
+        84px 52px,
+        94px 52px,
+
+        27px 80px,
+        24px 86px,
+
+        0 0;
+
+    background-repeat:no-repeat;
+
+    box-shadow:
+        inset 0 0 0 10px #e6a800;
+}
+
+
+.flipAnimation{
+    animation:
+    flipAnim 1s;
+}
+
+@keyframes flipAnim{
+
+    from{
+        transform:
+        rotateY(0deg);
+    }
+
+    to{
+        transform:
+        rotateY(1800deg);
+    }
+
+}
+
+/* DICE */
+
+.diceBox{
+
+    width:160px;
+    height:160px;
+
+    margin:25px auto;
+
+    border-radius:20px;
+
+    border:4px solid #222;
+
+    background:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:70px;
+    font-weight:bold;
+}
+
+.rollAnimation{
+    animation:
+    rollDice .8s;
+}
+
+@keyframes rollDice{
+
+    from{
+        transform:
+        rotate(0deg);
+    }
+
+    to{
+        transform:
+        rotate(720deg);
+    }
+
+}
+
+/* SLOTS */
+
+.slotMachine{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    margin:30px;
+}
+
+.slot{
+
+    width:100px;
+    height:100px;
+
+    border-radius:15px;
+
+    background:white;
+
+    border:3px solid #ddd;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:50px;
+}
+
+.slotGlow{
+
+    box-shadow:
+    0 0 20px gold;
+}
+
+/* BLACKJACK */
+
+.blackjackBoard{
+
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+    text-align:center;
+    justify-content:center;
+}
+
+.handTitle{
+
+    font-size:22px;
+    font-weight:bold;
+}
+
+.cardArea{
+
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+
+    gap:12px;
+}
+
+.card{
+
+    width:90px;
+    height:130px;
+
+    background:white;
+
+    border-radius:12px;
+
+    border:2px solid #ccc;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:30px;
+    font-weight:bold;
+
+    box-shadow:
+    0 4px 10px
+    rgba(0,0,0,.1);
+}
+
+.redCard{
+    color:red;
+}
+
+.blackCard{
+    color:black;
+}
+
+.hiddenCard{
+
+    background:#4caf50;
+
+    color:transparent;
+}
+
+#authBox{
+
+    position:fixed;
+    inset:0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    background:#f5f7f8;
+
+    z-index:9999;
+
+}
+
+#authBox input{
+
+    padding:10px;
+    margin:5px;
+
+    border-radius:8px;
+    border:1px solid #ccc;
+
+    width:200px;
+
+}
+
+#authBox button{
+
+    margin:5px;
+    padding:10px 20px;
+
+    border:none;
+    border-radius:8px;
+
+    background:#4caf50;
+    color:white;
+
+    cursor:pointer;
+
+}
+
+#userDisplay{
+    position:fixed;
+    top:10px;
+    right:10px;
+
+    background:white;
+    padding:10px 15px;
+    border-radius:10px;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.1);
+
+    font-weight:bold;
+    color:#2e7d32;
+
+    z-index:999;
+}
+
+.winFlash{
+    animation:winFlash 0.6s ease;
+}
+
+@keyframes winFlash{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.15); filter:brightness(1.5);}
+    100%{transform:scale(1);}
+}
+
+#betMessage{
+    color:#c62828;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+#leaderboardList{
+
+    max-width:800px;
+    margin:auto;
+
+}
+
+.leaderboardEntry{
+
+    background:white;
+
+    margin:10px 0;
+    padding:15px;
+
+    border-radius:12px;
+
+    display:flex;
+    justify-content:space-between;
+
+    box-shadow:
+    0 2px 10px rgba(0,0,0,.08);
+
+}
+
+.accountCard{
+
+    background:white;
+
+    padding:20px;
+
+    margin-bottom:20px;
+
+    border-radius:16px;
+
+    box-shadow:
+    0 4px 15px rgba(0,0,0,.08);
+}
+
+.achievement{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:10px;
+
+    margin:5px 0;
+
+    border-radius:8px;
+}
+
+.unlocked{
+
+    background:#e8f5e9;
+
+    color:#2e7d32;
+}
+
+.locked{
+
+    background:#f3f3f3;
+
+    color:#999;
+}
+
+.achievementPopup{
+
+    position:fixed;
+
+    top:20px;
+    right:20px;
+
+    background:#4caf50;
+
+    color:white;
+
+    padding:15px 20px;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+    z-index:99999;
+
+    animation:
+    achievementSlide 3s forwards;
+}
+
+@keyframes achievementSlide{
+
+    0%{
+
+        opacity:0;
+
+        transform:
+        translateX(300px);
+    }
+
+    10%{
+
+        opacity:1;
+
+        transform:
+        translateX(0px);
+    }
+
+    90%{
+
+        opacity:1;
+    }
+
+    100%{
+
+        opacity:0;
+    }
+
+}
+
+#chatMessages{
+
+    height:500px;
+
+    overflow-y:auto;
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:15px;
+
+    box-shadow:
+    0 3px 15px rgba(0,0,0,.1);
+
+    text-align:left;
+}
+
+.chatMessage{
+
+    padding:8px;
+
+    border-bottom:
+    1px solid #eee;
+
+    word-wrap:break-word;
+}
+
+.chatUsername{
+
+    color:#2e7d32;
+
+    font-weight:bold;
+}
+
+#chatInputArea{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:15px;
+}
+
+#chatInput{
+
+    flex:1;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    border:1px solid #ccc;
+
+    font-size:16px;
+}
+
+#sendChatBtn{
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#4caf50;
+
+    color:white;
+
+    cursor:pointer;
+}
+
+#sendChatBtn:hover{
+
+    background:#43a047;
+}
