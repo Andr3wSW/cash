@@ -1971,6 +1971,8 @@ function buyUpgrade(id){
     updateUI();
 
 }
+window.buyUpgrade =
+buyUpgrade;
 
 function getPassiveIncome(){
 
