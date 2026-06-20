@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Clicker</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="authBox">
+
+    <h2>Login</h2>
+    <input id="username" placeholder="Username">
+    <input id="email" placeholder="Email">
+    <input id="password" placeholder="Password" type="password">
+
+    <button id="loginBtn">Login</button>
+    <button id="registerBtn">Register</button>
+
+    <p id="authStatus"></p>
+
+</div>
+
+<div id="userDisplay"></div>
+
+<div id="moneyRain"></div>
+
+<div id="app">
+
+    <!-- SIDEBAR -->
+
+    <div id="sidebar">
+
+        <div id="sidebarMoney">$0</div>
+
+        <h2>💰 Money Menu</h2>
+
+        <button class="tabBtn" data-tab="clicker">
+            💰 Clicker
+        </button>
+
+        <button class="tabBtn" data-tab="shop">
+            🏬 Shop
+        </button> 
+
+        <button class="tabBtn" data-tab="chat">
+            💬 Global Chat
+        </button>
+
+        <button class="tabBtn" data-tab="account">
+            👤 Account
+        </button>
+
+        <button class="tabBtn" data-tab="casino">
+            🎰 Casino
+        </button>
+
+        <button class="tabBtn" data-tab="stocks">
+            📈 Stocks
+        </button>
+
+        <button class="tabBtn" data-tab="duels">
+            ⚔️ Duels
+        </button>
+
+        <button class="tabBtn" data-tab="leaderboards">
+            🏆 Leaderboards
+        </button>
+
+    </div>
+
+    <!-- CONTENT -->
+
+    <div id="content">
+
+        <!-- CLICKER -->
+
+        <div class="tab active" id="clicker">
+
+            <h1>Cash Clicker</h1>
+
+            <div id="money">$0</div>
+
+            <h2 id="coinTier">
+                Copper Tier 1
+            </h2>
+
+            <div id="coinContainer">
+
+                <div id="coin">
+                    ¢
+                </div>
+
+            </div>
+
+            <button id="upgradeBtn">
+                Upgrade Coin ($10)
+            </button>
+
+        </div>
+
+        <!-- SHOP -->
+        
+         <div class="tab" id="shop">
+             
+            <h1>🏬 Upgrade Shop </h1>
+
+            <p>
+                Coming Soon
+            </p>
+
+        </div>
+
+        <!-- ACCOUNT -->
+         <div class="tab" id="account">
+            <h1>👤 Account</h1>
+
+                <h2 id="accountUsername">
+                    Username
+                </h2>
+
+                <p id="accountEmail">
+                    Email
+                </p>
+
+                <h2>⭐ Prestige</h2>
+
+                <p id="prestigeDisplay">
+                    Prestige 0
+                </p>
+            
+                <h2>🏆 Achievements</h2>
+
+                <div id="achievementList"></div>
+
+                <h2>⚙️ Settings</h2>
+
+                <button id="signOutBtn">
+                    Sign Out
+                </button>
+        </div>
+
+        <!-- CHAT -->
+
+        <div class="tab" id="chat">
+
+            <h1>💬 Global Chat</h1>
+
+            <div id="chatMessages"></div>
+
+            <div id="chatInputArea">
+
+                <input
+                id="chatInput"
+                maxlength="200"
+                placeholder="Type a message...">
+
+                <button id="sendChatBtn">
+                    Send
+                </button>
+
+            </div>
+
+        </div>
+        
+        <!-- CASINO -->
+
+        <div class="tab" id="casino">
+
+            <!-- CASINO MENU -->
+
+            <div id="casinoMenu">
+
+                <h1>🎰 Casino</h1>
+
+                <p class="casinoSubtitle">
+                    Choose a game
+                </p>
+
+                <div class="casinoGrid">
+
+                    <div class="casinoCard" data-game="coinflip">
+
+                        <div class="casinoIcon">
+                            🪙
+                        </div>
+
+                        <h2>
+                            Coin Flip
+                        </h2>
+
+                        <p>
+                            Double your money with a 50/50 chance.
+                        </p>
+
+                    </div>
+
+                    <div class="casinoCard" data-game="dice">
+
+                        <div class="casinoIcon">
+                            🎲
+                        </div>
+
+                        <h2>
+                            Dice Roll
+                        </h2>
+
+                        <p>
+                            Roll high for a big payout.
+                        </p>
+
+                    </div>
+
+                    <div class="casinoCard" data-game="slots">
+
+                        <div class="casinoIcon">
+                            🎰
+                        </div>
+
+                        <h2>
+                            Slots
+                        </h2>
+
+                        <p>
+                            Match symbols to win jackpots.
+                        </p>
+
+                    </div>
+
+                    <div class="casinoCard" data-game="blackjack">
+
+                        <div class="casinoIcon">
+                            🃏
+                        </div>
+
+                        <h2>
+                            Blackjack
+                        </h2>
+
+                        <p>
+                            Beat the dealer without busting.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- GAME VIEW -->
+
+            <div id="casinoGameView" style="display:none;">
+
+                <button id="backCasino">
+                    ← Back To Casino
+                </button>
+
+                <div id="gameContent">
+
+                    <!-- Games load here -->
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- STOCKS -->
+
+        <div class="tab" id="stocks">
+
+            <h1>📈 Stocks</h1>
+
+            <p>
+                Coming Soon
+            </p>
+
+        </div>
+        
+        <!-- DUELS -->
+
+        <div class="tab" id="duels">
+
+            <h1>⚔️ Duels</h1>
+
+            <p>
+                Coming Soon
+            </p>
+
+        </div>
+
+        <!-- LEADERBOARDS -->
+
+        <div class="tab" id="leaderboards">
+
+            <h1>🏆 Richest Players</h1>
+        
+            <div id="leaderboardList">
+                Loading...
+            </div>
+        
+        </div>
+        
+    </div>
+
+</div>
+    
+<script type="module" src="script.js"></script>
+
+</body>
+</html>
