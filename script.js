@@ -54,8 +54,6 @@ let clickPower = 1;
 let upgradeCost = 10;
 let prestigeLevel = 0;
 let username = "Player";
-let coinCollectors = 0;
-let luckyPennies = 0;
 let achievements = {
 
     money100:false,
@@ -74,6 +72,18 @@ let achievements = {
     prestige10:false
 
 };
+
+let coinCollector = false;
+let moneyMagnet = false;
+let atmNetwork = false;
+let printingPress = false;
+let federalReserve = false;
+
+let luckyPenny = false;
+let loadedDice = false;
+let cardCounter = false;
+let houseInsider = false;
+let riggedReality = false;
 
 // =====================================
 // BLACKJACK DATA
@@ -348,9 +358,18 @@ async function saveToCloud(){
         clickPower,
         upgradeCost,
         prestigeLevel,
-        coinCollectors,
-        luckyPennies,
-        achievements
+        achievements,
+        coinCollector,
+        moneyMagnet,
+        atmNetwork,
+        printingPress,
+        federalReserve,
+
+        luckyPenny,
+        loadedDice,
+        cardCounter,
+        houseInsider,
+        riggedReality
     });
 
     if(!uid) return;
@@ -362,7 +381,19 @@ async function saveToCloud(){
         clickPower,
         upgradeCost,
         prestigeLevel,
-        achievements
+        achievements,
+
+        coinCollector,
+        moneyMagnet,
+        atmNetwork,
+        printingPress,
+        federalReserve,
+
+        luckyPenny,
+        loadedDice,
+        cardCounter,
+        houseInsider,
+        riggedReality
 
     });
 
@@ -381,8 +412,8 @@ async function loadCloudSave(){
     clickPower = data.clickPower ?? 1;
     upgradeCost = data.upgradeCost ?? 10;
     prestigeLevel = data.prestigeLevel ?? 0;
-    coinCollectors = save.coinCollectors ?? 0;
-    luckyPennies = save.luckyPennies ?? 0;
+    coinCollector = data.coinCollector ?? false;
+
     
     updateAccountPage(data);
 
@@ -553,6 +584,28 @@ document
     }
 );
 
+function getCasinoMultiplier(){
+
+    let bonus = 1;
+
+    if(luckyPenny)
+    bonus += .05;
+
+    if(loadedDice)
+    bonus += .10;
+
+    if(cardCounter)
+    bonus += .25;
+
+    if(houseInsider)
+    bonus += .50;
+
+    if(riggedReality)
+    bonus += 1;
+
+    return bonus;
+}
+
 // =====================================
 // GAME LOADER
 // =====================================
@@ -678,7 +731,7 @@ function playCoinFlip(choice, coin, resultEl, setHeads, setTails){
 
         if(choice === result){
 
-            money += betAmount * 2 * (1 + luckyPennies * 0.05);
+            money += betAmount * 2 * getCasinoMultiplier();
 
             resultEl.textContent = `WIN! (${result})`;
 
@@ -821,7 +874,7 @@ function finishDice(
 
     if(roll >= 5){
 
-        money += bet * 2 *(1 + luckyPennies * 0.05);
+        money += bet * 2 * getCasinoMultiplier();
 
         resultEl(
             `WIN (${roll})`
@@ -967,7 +1020,7 @@ function finishSlots(bet){
     else if(a === b || b === c || a === c)
         payout = 2;
 
-    money += bet * (1 + luckyPennies * 0.05) * payout;
+    money += bet * getCasinoMultiplier() * payout;
 
     resultEl(
         payout > 0
@@ -1199,7 +1252,7 @@ function resolveBlackjack(){
     }
     else if(dealer > 21 || player > dealer){
 
-        money += blackjackBet * 2 * (1 + luckyPennies * 0.05);
+        money += blackjackBet * 2 * getCasinoMultiplier();
         resultEl(`YOU WIN (${player} vs ${dealer})`);
 
         winAnimation();
@@ -1761,7 +1814,24 @@ document.addEventListener(
 // =====================================
 setInterval(()=>{
 
-    money += coinCollectors;
+    let income = 0;
+
+    if(coinCollector)
+    income += 1;
+
+    if(moneyMagnet)
+    income += 5;
+
+    if(atmNetwork)
+    income += 25;
+
+    if(printingPress)
+    income += 100;
+
+    if(federalReserve)
+    income += 500;
+
+    money += income;
 
     updateUI();
 

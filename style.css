@@ -946,3 +946,81 @@ body{
 
     background:#43a047;
 }
+
+/* Shop */
+.shopGrid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:20px;
+
+    max-width:1200px;
+
+    margin:auto;
+}
+
+.shopCard{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    box-shadow:
+    0 4px 15px rgba(0,0,0,.08);
+
+    transition:.2s;
+}
+
+.shopCard:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.12);
+}
+
+.shopCard h2{
+
+    margin-top:0;
+}
+
+.shopCost{
+
+    color:#2e7d32;
+
+    font-weight:bold;
+
+    font-size:20px;
+}
+
+.buyBtn{
+
+    border:none;
+
+    background:#4caf50;
+
+    color:white;
+
+    padding:12px 20px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+}
+
+.buyBtn:hover{
+
+    background:#43a047;
+}
+
+.buyBtn:disabled{
+
+    background:#999;
+
+    cursor:not-allowed;
+}
