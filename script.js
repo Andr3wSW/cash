@@ -218,26 +218,26 @@ function updateUI(){
 
 }
     const collectorCount =
-    document.getElementById(
-        "collectorCount"
-    );
+    document.getElementById("collectorCount");
 
     if(collectorCount){
 
         collectorCount.textContent =
-        coinCollectors;
+        coinCollector
+        ? "✅"
+        : "❌";
 
     }
 
     const pennyCount =
-    document.getElementById(
-        "pennyCount"
-    );
+    document.getElementById("pennyCount");
 
     if(pennyCount){
 
         pennyCount.textContent =
-        luckyPennies;
+        luckyPenny
+        ? "✅"
+        : "❌";
 
     }
 
@@ -292,14 +292,14 @@ function createFloatingMoney(amount){
 
 coin.addEventListener("click",()=>{
 
-    const clickAmount =
+    const clickValue =
     clickPower *
     (2 ** prestigeLevel);
 
-    money += clickAmount;
+    money += clickValue;
 
     createFloatingMoney(
-        clickAmount
+        clickValue
     );
 
     updateUI();
@@ -412,7 +412,35 @@ async function loadCloudSave(){
     clickPower = data.clickPower ?? 1;
     upgradeCost = data.upgradeCost ?? 10;
     prestigeLevel = data.prestigeLevel ?? 0;
-    coinCollector = data.coinCollector ?? false;
+    coinCollector = 
+    data.coinCollector ?? false
+
+    moneyMagnet =
+    data.moneyMagnet ?? false;
+
+    atmNetwork =
+    data.atmNetwork ?? false;
+
+    printingPress =
+    data.printingPress ?? false;
+
+    federalReserve =
+    data.federalReserve ?? false;
+
+    luckyPenny =
+    data.luckyPenny ?? false;
+
+    loadedDice =
+    data.loadedDice ?? false;
+
+    cardCounter =
+    data.cardCounter ?? false;
+
+    houseInsider =
+    data.houseInsider ?? false;
+
+    riggedReality =
+    data.riggedReality ?? false;
 
     
     updateAccountPage(data);
@@ -1557,11 +1585,16 @@ function prestige(){
 
     clickPower = 1;
 
+    upgradeCost = 10;
+
+    saveToCloud();
+
     updateUI();
 
     showAchievementPopup(
         `⭐ Prestige ${prestigeLevel}`
     );
+
 }
 
 function showAchievementPopup(text){
@@ -1866,3 +1899,11 @@ document.getElementById(
     updateUI();
 
 };
+
+function ownsUpgrade(value){
+
+    return value
+    ? "✅"
+    : "❌";
+
+}
