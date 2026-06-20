@@ -73,17 +73,99 @@ let achievements = {
 
 };
 
-let coinCollector = false;
-let moneyMagnet = false;
-let atmNetwork = false;
-let printingPress = false;
-let federalReserve = false;
+// =====================================
+// UPGRADE DATA
+// =====================================
 
-let luckyPenny = false;
-let loadedDice = false;
-let cardCounter = false;
-let houseInsider = false;
-let riggedReality = false;
+let upgrades = {
+
+    coinCollector:false,
+    moneyMagnet:false,
+    atmNetwork:false,
+    printingPress:false,
+    federalReserve:false,
+
+    luckyPenny:false,
+    loadedDice:false,
+    cardCounter:false,
+    houseInsider:false,
+    riggedReality:false
+
+};
+
+const shopUpgrades = [
+
+{
+    id:"coinCollector",
+    name:"Coin Collector",
+    description:"+1 money/sec",
+    cost:500
+},
+
+{
+    id:"moneyMagnet",
+    name:"Money Magnet",
+    description:"+5 money/sec",
+    cost:2500
+},
+
+{
+    id:"atmNetwork",
+    name:"ATM Network",
+    description:"+25 money/sec",
+    cost:15000
+},
+
+{
+    id:"printingPress",
+    name:"Printing Press",
+    description:"+100 money/sec",
+    cost:100000
+},
+
+{
+    id:"federalReserve",
+    name:"Federal Reserve",
+    description:"+500 money/sec",
+    cost:1000000
+},
+
+{
+    id:"luckyPenny",
+    name:"Lucky Penny",
+    description:"+5% casino winnings",
+    cost:2500
+},
+
+{
+    id:"loadedDice",
+    name:"Loaded Dice",
+    description:"+10% casino winnings",
+    cost:10000
+},
+
+{
+    id:"cardCounter",
+    name:"Card Counter",
+    description:"+25% blackjack winnings",
+    cost:50000
+},
+
+{
+    id:"houseInsider",
+    name:"House Insider",
+    description:"+50% casino winnings",
+    cost:250000
+},
+
+{
+    id:"riggedReality",
+    name:"Rigged Reality",
+    description:"+100% casino winnings",
+    cost:5000000
+}
+
+];
 
 // =====================================
 // BLACKJACK DATA
@@ -217,30 +299,19 @@ function updateUI(){
     `Upgrade Coin ($${upgradeCost})`;
 
 }
-    const collectorCount =
-    document.getElementById("collectorCount");
 
-    if(collectorCount){
+    const passiveIncomeDisplay =
+    document.getElementById(
+    "passiveIncome"
+    );
 
-        collectorCount.textContent =
-        coinCollector
-        ? "✅"
-        : "❌";
+    if(passiveIncomeDisplay){
 
-    }
-
-    const pennyCount =
-    document.getElementById("pennyCount");
-
-    if(pennyCount){
-
-        pennyCount.textContent =
-        luckyPenny
-        ? "✅"
-        : "❌";
-
-    }
-
+        passiveIncomeDisplay.textContent =
+        "$" +
+        getPassiveIncome() +
+        "/sec";
+}
     updateCoinVisual();
     checkAchievements();
     updateAchievementList();
@@ -359,17 +430,7 @@ async function saveToCloud(){
         upgradeCost,
         prestigeLevel,
         achievements,
-        coinCollector,
-        moneyMagnet,
-        atmNetwork,
-        printingPress,
-        federalReserve,
-
-        luckyPenny,
-        loadedDice,
-        cardCounter,
-        houseInsider,
-        riggedReality
+        upgrades
     });
 
     if(!uid) return;
@@ -382,18 +443,7 @@ async function saveToCloud(){
         upgradeCost,
         prestigeLevel,
         achievements,
-
-        coinCollector,
-        moneyMagnet,
-        atmNetwork,
-        printingPress,
-        federalReserve,
-
-        luckyPenny,
-        loadedDice,
-        cardCounter,
-        houseInsider,
-        riggedReality
+        upgrades
 
     });
 
@@ -412,36 +462,7 @@ async function loadCloudSave(){
     clickPower = data.clickPower ?? 1;
     upgradeCost = data.upgradeCost ?? 10;
     prestigeLevel = data.prestigeLevel ?? 0;
-    coinCollector = 
-    data.coinCollector ?? false
-
-    moneyMagnet =
-    data.moneyMagnet ?? false;
-
-    atmNetwork =
-    data.atmNetwork ?? false;
-
-    printingPress =
-    data.printingPress ?? false;
-
-    federalReserve =
-    data.federalReserve ?? false;
-
-    luckyPenny =
-    data.luckyPenny ?? false;
-
-    loadedDice =
-    data.loadedDice ?? false;
-
-    cardCounter =
-    data.cardCounter ?? false;
-
-    houseInsider =
-    data.houseInsider ?? false;
-
-    riggedReality =
-    data.riggedReality ?? false;
-
+    upgrades = data.upgrades ?? upgrades;
     
     updateAccountPage(data);
 
@@ -614,24 +635,32 @@ document
 
 function getCasinoMultiplier(){
 
-    let bonus = 1;
+    let mult = 1;
 
-    if(luckyPenny)
-    bonus += .05;
+    if(upgrades.luckyPenny)
+        mult += .05;
 
-    if(loadedDice)
-    bonus += .10;
+    if(upgrades.loadedDice)
+        mult += .10;
 
-    if(cardCounter)
-    bonus += .25;
+    if(upgrades.houseInsider)
+        mult += .50;
 
-    if(houseInsider)
-    bonus += .50;
+    if(upgrades.riggedReality)
+        mult += 1;
 
-    if(riggedReality)
-    bonus += 1;
+    return mult;
+}
 
-    return bonus;
+function getBlackjackMultiplier(){
+
+    let mult =
+    getCasinoMultiplier();
+
+    if(upgrades.cardCounter)
+        mult += .25;
+
+    return mult;
 }
 
 // =====================================
@@ -1280,7 +1309,7 @@ function resolveBlackjack(){
     }
     else if(dealer > 21 || player > dealer){
 
-        money += blackjackBet * 2 * getCasinoMultiplier();
+        money += blackjackBet * 2 * getBlackjackMultiplier();
         resultEl(`YOU WIN (${player} vs ${dealer})`);
 
         winAnimation();
@@ -1307,6 +1336,7 @@ function resolveBlackjack(){
 // =====================================
 
 updateUI();
+loadShop();
 
 const emailInput = document.getElementById("email");
 const passInput = document.getElementById("password");
@@ -1845,60 +1875,124 @@ document.addEventListener(
 // =====================================
 // UPGRADE SHOP
 // =====================================
+
 setInterval(()=>{
 
-    let income = 0;
-
-    if(coinCollector)
-    income += 1;
-
-    if(moneyMagnet)
-    income += 5;
-
-    if(atmNetwork)
-    income += 25;
-
-    if(printingPress)
-    income += 100;
-
-    if(federalReserve)
-    income += 500;
-
-    money += income;
+    money += getPassiveIncome();
 
     updateUI();
 
 },1000);
 
-document.getElementById(
-    "buyCollector"
-).onclick = ()=>{
+function loadShop(){
 
-    if(money < 500)
+    const container =
+    document.getElementById(
+        "shopContainer"
+    );
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    shopUpgrades.forEach(upgrade=>{
+
+        const owned =
+        upgrades[upgrade.id];
+
+        container.innerHTML += `
+
+        <div class="shopCard">
+
+            <h2>
+            ${upgrade.name}
+            </h2>
+
+            <p>
+            ${upgrade.description}
+            </p>
+
+            <p class="shopCost">
+            $${upgrade.cost.toLocaleString()}
+            </p>
+
+            <p>
+            Owned:
+            ${owned ? "✅" : "❌"}
+            </p>
+
+            <button
+            class="buyBtn"
+            onclick="buyUpgrade('${upgrade.id}')"
+            ${owned ? "disabled" : ""}
+            >
+
+            Buy
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+function buyUpgrade(id){
+
+    const upgrade =
+    shopUpgrades.find(
+        u=>u.id===id
+    );
+
+    if(!upgrade) return;
+
+    if(upgrades[id])
         return;
 
-    money -= 500;
+    if(money < upgrade.cost){
 
-    coinCollectors++;
+        showAchievementPopup(
+            "Not enough money!"
+        );
+
+        return;
+    }
+
+    money -= upgrade.cost;
+
+    upgrades[id] = true;
+
+    saveToCloud();
+
+    loadShop();
 
     updateUI();
 
-};
+}
 
-document.getElementById(
-    "buyPenny"
-).onclick = ()=>{
+function getPassiveIncome(){
 
-    if(money < 2500)
-        return;
+    let income = 0;
 
-    money -= 2500;
+    if(upgrades.coinCollector)
+        income += 1;
 
-    luckyPennies++;
+    if(upgrades.moneyMagnet)
+        income += 5;
 
-    updateUI();
+    if(upgrades.atmNetwork)
+        income += 25;
 
-};
+    if(upgrades.printingPress)
+        income += 100;
+
+    if(upgrades.federalReserve)
+        income += 500;
+
+    return income;
+}
 
 function ownsUpgrade(value){
 
