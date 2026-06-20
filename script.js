@@ -54,6 +54,8 @@ let clickPower = 1;
 let upgradeCost = 10;
 let prestigeLevel = 0;
 let username = "Player";
+let coinCollectors = 0;
+let luckyPennies = 0;
 let achievements = {
 
     money100:false,
@@ -205,6 +207,29 @@ function updateUI(){
     `Upgrade Coin ($${upgradeCost})`;
 
 }
+    const collectorCount =
+    document.getElementById(
+        "collectorCount"
+    );
+
+    if(collectorCount){
+
+        collectorCount.textContent =
+        coinCollectors;
+
+    }
+
+    const pennyCount =
+    document.getElementById(
+        "pennyCount"
+    );
+
+    if(pennyCount){
+
+        pennyCount.textContent =
+        luckyPennies;
+
+    }
 
     updateCoinVisual();
     checkAchievements();
@@ -323,6 +348,8 @@ async function saveToCloud(){
         clickPower,
         upgradeCost,
         prestigeLevel,
+        coinCollectors,
+        luckyPennies,
         achievements
     });
 
@@ -354,6 +381,8 @@ async function loadCloudSave(){
     clickPower = data.clickPower ?? 1;
     upgradeCost = data.upgradeCost ?? 10;
     prestigeLevel = data.prestigeLevel ?? 0;
+    coinCollectors = save.coinCollectors ?? 0;
+    luckyPennies = save.luckyPennies ?? 0;
     
     updateAccountPage(data);
 
@@ -649,7 +678,7 @@ function playCoinFlip(choice, coin, resultEl, setHeads, setTails){
 
         if(choice === result){
 
-            money += betAmount * 2;
+            money += betAmount * 2 * (1 + luckyPennies * 0.05);
 
             resultEl.textContent = `WIN! (${result})`;
 
@@ -792,8 +821,7 @@ function finishDice(
 
     if(roll >= 5){
 
-        money +=
-        bet * 3;
+        money += bet * 2 *(1 + luckyPennies * 0.05);
 
         resultEl(
             `WIN (${roll})`
@@ -939,7 +967,7 @@ function finishSlots(bet){
     else if(a === b || b === c || a === c)
         payout = 2;
 
-    money += bet * payout;
+    money += bet * (1 + luckyPennies * 0.05) * payout;
 
     resultEl(
         payout > 0
@@ -1171,7 +1199,7 @@ function resolveBlackjack(){
     }
     else if(dealer > 21 || player > dealer){
 
-        money += blackjackBet * 2;
+        money += blackjackBet * 2 * (1 + luckyPennies * 0.05);
         resultEl(`YOU WIN (${player} vs ${dealer})`);
 
         winAnimation();
@@ -1728,3 +1756,43 @@ document.addEventListener(
     }
 
 );
+// =====================================
+// UPGRADE SHOP
+// =====================================
+setInterval(()=>{
+
+    money += coinCollectors;
+
+    updateUI();
+
+},1000);
+
+document.getElementById(
+    "buyCollector"
+).onclick = ()=>{
+
+    if(money < 500)
+        return;
+
+    money -= 500;
+
+    coinCollectors++;
+
+    updateUI();
+
+};
+
+document.getElementById(
+    "buyPenny"
+).onclick = ()=>{
+
+    if(money < 2500)
+        return;
+
+    money -= 2500;
+
+    luckyPennies++;
+
+    updateUI();
+
+};
