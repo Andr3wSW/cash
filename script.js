@@ -473,7 +473,7 @@ async function loadCloudSave(){
             achievements =
             data.achievements;
         }
-
+    loadShop();
     updateUI();
 
 }
