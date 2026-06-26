@@ -276,15 +276,58 @@
         <!-- STOCKS -->
 
         <div class="tab" id="stocks">
-
-            <h1>📈 Stocks</h1>
+            
+            <h1>📈 Stock Market</h1>
 
             <p>
-                Coming Soon
+                Buy shares in fictional companies.
+                Prices update every 90 seconds.
             </p>
 
+            <div id="stockContainer" class="stockGrid">
+
+            </div>
+
+            <div id="stockPage" class="overlay hidden">
+
+                <button id="closeStock">
+                    ← Back
+                </button>
+
+                <h1 id="stockName"></h1>
+
+                <h2 id="stockTicker"></h2>
+
+                <h3 id="stockPrice"></h3>
+
+                <p id="stockOwned"></p>
+
+                <p id="stockAverage"></p>
+
+                <p id="stockProfit"></p>
+
+                <canvas
+                    id="stockGraph"
+                    width="700"
+                    height="300">
+                </canvas>
+
+                <div class="stockButtons">
+
+                    <button id="buyShare">
+                        Buy 1 Share
+                    </button>
+
+                    <button id="sellShare">
+                        Sell 1 Share
+                    </button>
+
+                </div>
+
+            </div>
+
         </div>
-        
+                
         <!-- DUELS -->
 
         <div class="tab" id="duels">

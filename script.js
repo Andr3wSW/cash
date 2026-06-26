@@ -46,7 +46,7 @@ const db = getFirestore(app);
 let uid = null;
 
 // =====================================
-// BASE DATA
+// DATA
 // =====================================
 
 let money = 0;
@@ -72,10 +72,81 @@ let achievements = {
     prestige10:false
 
 };
+let stocks = [
 
-// =====================================
-// UPGRADE DATA
-// =====================================
+{
+    ticker:"CSH",
+    name:"Cash Corp",
+
+    price:100,
+
+    volatility:.02,
+
+    trend:0,
+
+    history:[100],
+
+    owned:0,
+
+    averageCost:0
+
+},
+
+{
+    ticker:"GLD",
+    name:"Gold Industries",
+
+    price:250,
+
+    volatility:.015,
+
+    trend:0,
+
+    history:[250],
+
+    owned:0,
+
+    averageCost:0
+
+},
+
+{
+    ticker:"TEC",
+    name:"TechNova",
+
+    price:500,
+
+    volatility:.04,
+
+    trend:0,
+
+    history:[500],
+
+    owned:0,
+
+    averageCost:0
+
+},
+
+{
+    ticker:"CRP",
+    name:"CryptoChain",
+
+    price:800,
+
+    volatility:.10,
+
+    trend:0,
+
+    history:[800],
+
+    owned:0,
+
+    averageCost:0
+
+}
+
+];
 
 let upgrades = {
 
@@ -166,10 +237,6 @@ const shopUpgrades = [
 }
 
 ];
-
-// =====================================
-// BLACKJACK DATA
-// =====================================
 
 let blackjackBet = 0;
 let playerHand = [];
@@ -430,7 +497,8 @@ async function saveToCloud(){
         upgradeCost,
         prestigeLevel,
         achievements,
-        upgrades
+        upgrades,
+        stocks
     });
 
     if(!uid) return;
@@ -443,7 +511,8 @@ async function saveToCloud(){
         upgradeCost,
         prestigeLevel,
         achievements,
-        upgrades
+        upgrades,
+        stocks
 
     });
 
@@ -472,6 +541,11 @@ async function loadCloudSave(){
         if(data.achievements){
             achievements =
             data.achievements;
+        }
+
+        if(data.stocks){
+            stocks = 
+            data.stocks;
         }
     loadShop();
     updateUI();
@@ -2003,3 +2077,160 @@ function ownsUpgrade(value){
     : "❌";
 
 }
+
+// =====================================
+// STOCK MARKET
+// =====================================
+
+function loadStocks(){
+
+    const container =
+    document.getElementById("stockContainer");
+
+    container.innerHTML = "";
+
+    stocks.forEach((stock,index)=>{
+
+        container.innerHTML += `
+
+        <div
+        class="stockCard"
+        onclick="openStock(${index})">
+
+            <h2>${stock.name}</h2>
+
+            <p>${stock.ticker}</p>
+
+            <h3>
+
+            $${stock.price.toFixed(2)}
+
+            </h3>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+let selectedStock = 0;
+
+function openStock(index){
+
+    selectedStock = index;
+
+    const stock =
+    stocks[index];
+
+    document
+    .getElementById("stockPage")
+    .classList
+    .remove("hidden");
+
+    document
+    .getElementById("stockName")
+    .textContent =
+    stock.name;
+
+    document
+    .getElementById("stockTicker")
+    .textContent =
+    stock.ticker;
+
+    document
+    .getElementById("stockPrice")
+    .textContent =
+    "$"+stock.price.toFixed(2);
+
+    document
+    .getElementById("stockOwned")
+    .textContent =
+    "Owned: "+stock.owned;
+
+    document
+    .getElementById("stockAverage")
+    .textContent =
+    "Average Cost: $"+
+    stock.averageCost.toFixed(2);
+
+}
+
+window.openStock = openStock;
+
+document
+.getElementById("closeStock")
+.onclick=()=>{
+
+document
+.getElementById("stockPage")
+.classList
+.add("hidden");
+
+};
+
+document
+.getElementById("buyShare")
+.onclick=()=>{
+
+const stock=
+stocks[selectedStock];
+
+if(money<stock.price){
+
+showAchievementPopup(
+"Not enough money!"
+);
+
+return;
+
+}
+
+money-=stock.price;
+
+stock.averageCost=
+
+(stock.averageCost*
+stock.owned
++
+stock.price)
+
+/
+
+(stock.owned+1);
+
+stock.owned++;
+
+updateUI();
+
+openStock(selectedStock);
+
+saveToCloud();
+
+};
+
+document
+.getElementById("sellShare")
+.onclick=()=>{
+
+const stock=
+stocks[selectedStock];
+
+if(stock.owned<=0)return;
+
+money+=stock.price;
+
+stock.owned--;
+
+if(stock.owned==0)
+
+stock.averageCost=0;
+
+updateUI();
+
+openStock(selectedStock);
+
+saveToCloud();
+
+};
