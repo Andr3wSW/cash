@@ -1402,3 +1402,37 @@ body{
     border-color:#666 !important;
 
 }
+
+.infoCard{
+
+    background:#262626;
+
+    border:2px solid #3b3b3b;
+
+    border-radius:15px;
+
+    padding:15px;
+
+    text-align:center;
+
+}
+
+.infoCard h3{
+
+    margin:0 0 10px 0;
+
+    color:#4caf50;
+
+    font-size:18px;
+
+}
+
+.infoCard p{
+
+    margin:0;
+
+    font-size:22px;
+
+    color:white;
+
+}

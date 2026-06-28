@@ -276,7 +276,7 @@
         <!-- STOCKS -->
 
         <div class="tab" id="stocks">
-            
+
             <h1>📈 Stock Market</h1>
 
             <p>
@@ -288,70 +288,119 @@
 
             </div>
 
-            <div id="stockPage" class="overlay hidden">
+        </div>
 
-                <button id="closeStock">← Back</button>
+        <!-- ========================= -->
+        <!-- STOCK DETAILS PAGE -->
+        <!-- ========================= -->
 
-                <div class="stockInfo">
+        <div id="stockPage" class="overlay hidden">
 
-                    <h1 id="stockName"></h1>
+            <button id="closeStock">
+                ← Back
+            </button>
 
-                    <h2 id="stockTicker"></h2>
+            <h1 id="stockName"></h1>
 
-                    <h2 id="stockPrice"></h2>
+            <h2 id="stockTicker"></h2>
 
-                    <p id="stockChange"></p>
+            <h1 id="stockPrice"></h1>
+
+            <p id="stockChange"></p>
+
+            <!-- Statistics -->
+
+            <div class="stockInfo">
+
+                <div class="infoCard">
+
+                    <h3>Shares Owned</h3>
 
                     <p id="stockOwned"></p>
 
+                </div>
+
+                <div class="infoCard">
+
+                    <h3>Average Cost</h3>
+
                     <p id="stockAverage"></p>
+
+                </div>
+
+                <div class="infoCard">
+
+                    <h3>Market Value</h3>
 
                     <p id="stockValue"></p>
 
+                </div>
+
+                <div class="infoCard">
+
+                    <h3>Total Profit</h3>
+
                     <p id="stockProfit"></p>
+
+                </div>
+
+                <div class="infoCard">
+
+                    <h3>Risk</h3>
 
                     <p id="stockRisk"></p>
 
-                    <p id="stockDescription"></p>
-                
                 </div>
 
-                <div class="quantityBox">
+            </div>
 
-                    <button id="minus100">-100</button>
+            <!-- Graph -->
 
-                    <button id="minus10">-10</button>
+            <canvas
+                id="stockGraph"
+                width="900"
+                height="350">
+            </canvas>
 
-                    <button id="minus1">-1</button>
+            <!-- Buy / Sell -->
 
-                    <span id="shareQuantity">1</span>
+            <div class="quantityBox">
 
-                    <button id="plus1">+1</button>
+                <button id="minus100">-100</button>
 
-                    <button id="plus10">+10</button>
+                <button id="minus10">-10</button>
 
-                    <button id="plus100">+100</button>
+                <button id="minus1">-1</button>
 
-                </div>
+                <span id="shareQuantity">1</span>
+
+                <button id="plus1">+1</button>
+
+                <button id="plus10">+10</button>
+
+                <button id="plus100">+100</button>
+
+            </div>
+
+            <div class="stockButtons">
 
                 <button id="buyShare">
 
-                Buy
+                    Buy Shares
 
                 </button>
 
                 <button id="sellShare">
 
-                Sell
+                    Sell Shares
 
                 </button>
 
-                <canvas
-                id="stockGraph"
-                width="900"
-                height="350">
+            </div>
 
-                </canvas>
+            <!-- Company Description -->
+
+            <div id="stockDescription">
 
             </div>
 
