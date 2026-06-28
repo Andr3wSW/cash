@@ -54,6 +54,8 @@ let clickPower = 1;
 let upgradeCost = 10;
 let prestigeLevel = 0;
 let username = "Player";
+let stockQuantity = 1;
+let selectedStock = 0;
 let achievements = {
 
     money100:false,
@@ -79,16 +81,20 @@ let stocks = [
     name:"Cash Corp",
 
     price:100,
-
-    volatility:.02,
-
-    trend:0,
-
-    history:[100],
+    previousPrice:100,
 
     owned:0,
+    averageCost:0,
 
-    averageCost:0
+    volatility:.015,
+    trend:.001,
+
+    history:Array(40).fill(100),
+
+    description:
+        "A large banking company with slow but steady growth.",
+
+    risk:"Low"
 
 },
 
@@ -97,16 +103,20 @@ let stocks = [
     name:"Gold Industries",
 
     price:250,
-
-    volatility:.015,
-
-    trend:0,
-
-    history:[250],
+    previousPrice:250,
 
     owned:0,
+    averageCost:0,
 
-    averageCost:0
+    volatility:.02,
+    trend:.0015,
+
+    history:Array(40).fill(250),
+
+    description:
+        "A mining company specializing in precious metals.",
+
+    risk:"Low"
 
 },
 
@@ -115,34 +125,42 @@ let stocks = [
     name:"TechNova",
 
     price:500,
-
-    volatility:.04,
-
-    trend:0,
-
-    history:[500],
+    previousPrice:500,
 
     owned:0,
+    averageCost:0,
 
-    averageCost:0
+    volatility:.04,
+    trend:.002,
+
+    history:Array(40).fill(500),
+
+    description:
+        "A rapidly growing AI technology company.",
+
+    risk:"Medium"
 
 },
 
 {
-    ticker:"CRP",
+    ticker:"CRY",
     name:"CryptoChain",
 
     price:800,
-
-    volatility:.10,
-
-    trend:0,
-
-    history:[800],
+    previousPrice:800,
 
     owned:0,
+    averageCost:0,
 
-    averageCost:0
+    volatility:.08,
+    trend:.003,
+
+    history:Array(40).fill(800),
+
+    description:
+        "A volatile cryptocurrency company with huge swings.",
+
+    risk:"Extreme"
 
 }
 
@@ -2116,45 +2134,52 @@ function loadStocks(){
 
 }
 
-let selectedStock = 0;
-
 function openStock(index){
 
-    selectedStock = index;
+    selectedStock=index;
 
-    const stock =
-    stocks[index];
+    const stock=stocks[index];
 
-    document
-    .getElementById("stockPage")
-    .classList
-    .remove("hidden");
+    stockQuantity=Math.max(1,stockQuantity);
 
-    document
-    .getElementById("stockName")
-    .textContent =
-    stock.name;
+    document.getElementById("stockPage").classList.remove("hidden");
 
-    document
-    .getElementById("stockTicker")
-    .textContent =
-    stock.ticker;
+    document.getElementById("stockName").textContent=stock.name;
 
-    document
-    .getElementById("stockPrice")
-    .textContent =
-    "$"+stock.price.toFixed(2);
+    document.getElementById("stockTicker").textContent=stock.ticker;
 
-    document
-    .getElementById("stockOwned")
-    .textContent =
-    "Owned: "+stock.owned;
+    document.getElementById("stockPrice").textContent="$"+stock.price.toFixed(2);
 
-    document
-    .getElementById("stockAverage")
-    .textContent =
-    "Average Cost: $"+
-    stock.averageCost.toFixed(2);
+    const percent=((stock.price-stock.previousPrice)/stock.previousPrice*100);
+
+    document.getElementById("stockChange").textContent=
+    (percent>=0?"▲ ":"▼ ")+
+    Math.abs(percent).toFixed(2)+"%";
+
+    document.getElementById("stockOwned").textContent=
+    "Shares: "+stock.owned;
+
+    document.getElementById("stockAverage").textContent=
+    "Average Cost: $"+stock.averageCost.toFixed(2);
+
+    document.getElementById("stockValue").textContent=
+    "Market Value: $"+
+    (stock.owned*stock.price).toFixed(2);
+
+    const profit=(stock.price-stock.averageCost)*stock.owned;
+
+    document.getElementById("stockProfit").textContent=
+    (profit>=0?"+":"")+
+    "$"+profit.toFixed(2);
+
+    document.getElementById("stockRisk").textContent=
+    "Risk: "+stock.risk;
+
+    document.getElementById("stockDescription").textContent=
+    stock.description;
+
+    document.getElementById("shareQuantity").textContent=
+    stockQuantity;
 
 }
 
@@ -2171,37 +2196,31 @@ document
 
 };
 
-document
-.getElementById("buyShare")
-.onclick=()=>{
+document.getElementById("buyShare").onclick=()=>{
 
-const stock=
-stocks[selectedStock];
+const stock=stocks[selectedStock];
 
-if(money<stock.price){
+const cost=stock.price*stockQuantity;
 
-showAchievementPopup(
-"Not enough money!"
-);
+if(money<cost){
+
+showAchievementPopup("Not enough money!");
 
 return;
 
 }
 
-money-=stock.price;
+money-=cost;
 
 stock.averageCost=
 
-(stock.averageCost*
-stock.owned
-+
-stock.price)
+(stock.averageCost*stock.owned+cost)
 
 /
 
-(stock.owned+1);
+(stock.owned+stockQuantity);
 
-stock.owned++;
+stock.owned+=stockQuantity;
 
 updateUI();
 
@@ -2211,18 +2230,21 @@ saveToCloud();
 
 };
 
-document
-.getElementById("sellShare")
-.onclick=()=>{
+document.getElementById("sellShare").onclick=()=>{
 
-const stock=
-stocks[selectedStock];
+const stock=stocks[selectedStock];
 
-if(stock.owned<=0)return;
+if(stock.owned<stockQuantity){
 
-money+=stock.price;
+showAchievementPopup("Not enough shares!");
 
-stock.owned--;
+return;
+
+}
+
+money+=stock.price*stockQuantity;
+
+stock.owned-=stockQuantity;
 
 if(stock.owned==0)
 
@@ -2235,3 +2257,85 @@ openStock(selectedStock);
 saveToCloud();
 
 };
+
+function changeQuantity(amount){
+
+stockQuantity+=amount;
+
+if(stockQuantity<1)
+
+stockQuantity=1;
+
+openStock(selectedStock);
+
+}
+
+document.getElementById("plus1").onclick=()=>changeQuantity(1);
+
+document.getElementById("plus10").onclick=()=>changeQuantity(10);
+
+document.getElementById("plus100").onclick=()=>changeQuantity(100);
+
+document.getElementById("minus1").onclick=()=>changeQuantity(-1);
+
+document.getElementById("minus10").onclick=()=>changeQuantity(-10);
+
+document.getElementById("minus100").onclick=()=>changeQuantity(-100);
+
+function randomBetween(min,max){
+
+return Math.random()*(max-min)+min;
+
+}
+
+function updateSingleStock(stock){
+
+stock.previousPrice=stock.price;
+
+stock.trend+=randomBetween(-.002,.002);
+
+stock.trend*=.95;
+
+stock.trend=Math.max(-.03,Math.min(.03,stock.trend));
+
+const movement=
+
+stock.trend+
+
+randomBetween(
+
+-stock.volatility,
+
+stock.volatility
+
+);
+
+stock.price*=1+movement;
+
+if(stock.price<1)
+
+stock.price=1;
+
+stock.history.push(stock.price);
+
+if(stock.history.length>40)
+
+stock.history.shift();
+
+}
+
+function updateStockMarket(){
+
+stocks.forEach(updateSingleStock);
+
+loadStocks();
+
+if(!document.getElementById("stockPage").classList.contains("hidden"))
+
+openStock(selectedStock);
+
+saveToCloud();
+
+}
+
+setInterval(updateStockMarket,90000);

@@ -290,39 +290,64 @@
 
             <div id="stockPage" class="overlay hidden">
 
-                <button id="closeStock">
-                    ← Back
-                </button>
+                <button id="closeStock">← Back</button>
 
                 <h1 id="stockName"></h1>
 
                 <h2 id="stockTicker"></h2>
 
-                <h3 id="stockPrice"></h3>
+                <h2 id="stockPrice"></h2>
+
+                <p id="stockChange"></p>
 
                 <p id="stockOwned"></p>
 
                 <p id="stockAverage"></p>
 
+                <p id="stockValue"></p>
+
                 <p id="stockProfit"></p>
 
-                <canvas
-                    id="stockGraph"
-                    width="700"
-                    height="300">
-                </canvas>
+                <p id="stockRisk"></p>
 
-                <div class="stockButtons">
+                <p id="stockDescription"></p>
 
-                    <button id="buyShare">
-                        Buy 1 Share
-                    </button>
+                <div class="quantityBox">
 
-                    <button id="sellShare">
-                        Sell 1 Share
-                    </button>
+                <button id="minus100">-100</button>
+
+                <button id="minus10">-10</button>
+
+                <button id="minus1">-1</button>
+
+                <span id="shareQuantity">1</span>
+
+                <button id="plus1">+1</button>
+
+                <button id="plus10">+10</button>
+
+                <button id="plus100">+100</button>
 
                 </div>
+
+                <button id="buyShare">
+
+                Buy
+
+                </button>
+
+                <button id="sellShare">
+
+                Sell
+
+                </button>
+
+                <canvas
+                id="stockGraph"
+                width="900"
+                height="350">
+
+                </canvas>
 
             </div>
 
