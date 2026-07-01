@@ -2106,29 +2106,85 @@ function loadStocks(){
     const container =
     document.getElementById("stockContainer");
 
-    container.innerHTML = "";
+    container.innerHTML="";
 
     stocks.forEach((stock,index)=>{
 
-        container.innerHTML += `
+        const percent =
+        ((stock.price-stock.previousPrice)
+        /stock.previousPrice)*100;
 
-        <div
-        class="stockCard"
-        onclick="openStock(${index})">
+        let direction="➖";
+        let color="stockNeutral";
 
-            <h2>${stock.name}</h2>
+        if(percent>0){
 
-            <p>${stock.ticker}</p>
+            direction="▲";
+            color="stockUp";
 
-            <h3>
+        }
 
-            $${stock.price.toFixed(2)}
+        else if(percent<0){
 
-            </h3>
+            direction="▼";
+            color="stockDown";
 
-        </div>
+        }
 
-        `;
+        let riskColor="🟢";
+
+        switch(stock.risk){
+
+            case "Medium":
+                riskColor="🔵";
+                break;
+
+            case "High":
+                riskColor="🟠";
+                break;
+
+            case "Extreme":
+                riskColor="🔴";
+                break;
+
+        }
+
+        container.innerHTML+=`
+
+<div class="stockCard ${color}"
+onclick="openStock(${index})">
+
+<h2>${stock.name}</h2>
+
+<p>${stock.ticker}</p>
+
+<p>${riskColor} ${stock.risk} Risk</p>
+
+<h3>$${stock.price.toFixed(2)}</h3>
+
+<p>
+
+${direction}
+${Math.abs(percent).toFixed(2)}%
+
+</p>
+
+<p>
+
+Owned:
+<strong>${stock.owned}</strong>
+
+</p>
+
+<button>
+
+Open →
+
+</button>
+
+</div>
+
+`;
 
     });
 

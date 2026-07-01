@@ -1436,3 +1436,34 @@ body{
     color:white;
 
 }
+
+.stockCard button{
+
+    margin-top:15px;
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#3c3c3c;
+
+    color:white;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.stockCard button:hover{
+
+    background:#4caf50;
+
+}
+
