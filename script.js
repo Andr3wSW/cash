@@ -515,8 +515,7 @@ async function saveToCloud(){
         upgradeCost,
         prestigeLevel,
         achievements,
-        upgrades,
-        stocks
+        upgrades
     });
 
     if(!uid) return;
@@ -529,9 +528,7 @@ async function saveToCloud(){
         upgradeCost,
         prestigeLevel,
         achievements,
-        upgrades,
-        stocks
-
+        upgrades
     });
 
 }
