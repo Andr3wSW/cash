@@ -561,10 +561,13 @@ async function loadCloudSave(){
             data.achievements;
         }
 
-        if(data.stocks){
-            stocks = 
-            data.stocks;
-        }
+        if (data.stocks) {
+            stocks = data.stocks.map((saved, i) => ({
+                ...stocks[i], 
+                ...saved
+        }));
+
+}
     loadShop();
     loadStocks();
     updateUI();
