@@ -580,6 +580,7 @@ async function loadCloudSave() {
 
     loadShop();
     loadStocks();
+    loadMarket();
     updateUI();
 
 }
