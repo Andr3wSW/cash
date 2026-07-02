@@ -584,7 +584,6 @@ async function loadCloudSave(){
     await loadMarket();
     updateUI();
 
-}
 
 function logout(){
     signOut(auth);
