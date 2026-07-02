@@ -533,12 +533,12 @@ async function saveToCloud(){
 
 }
 
-async function loadCloudSave(){
+async function loadCloudSave() {
 
     const ref = doc(db, "players", uid);
     const snap = await getDoc(ref);
 
-    if(!snap.exists()) return;
+    if (!snap.exists()) return;
 
     const data = snap.data();
 
@@ -547,42 +547,41 @@ async function loadCloudSave(){
     upgradeCost = data.upgradeCost ?? 10;
     prestigeLevel = data.prestigeLevel ?? 0;
     upgrades = data.upgrades ?? upgrades;
-    
+
     updateAccountPage(data);
 
     document.getElementById("userDisplay").textContent =
         data.username || "Player";
 
-        if(data.achievements){
-            achievements =
-            data.achievements;
-        }
+    if (data.achievements) {
+        achievements = data.achievements;
+    }
 
-        if(data.portfolio){
+    if (data.portfolio) {
 
-            stocks.forEach(stock=>{
+        stocks.forEach(stock => {
 
-                if(data.portfolio[stock.ticker]){
+            if (data.portfolio[stock.ticker]) {
 
-                    stock.owned=
-
+                stock.owned =
                     data.portfolio[stock.ticker].owned;
 
-                    stock.averageCost=
+                stock.averageCost =
+                    data.portfolio[stock.ticker].averageCost ?? 0;
 
-                    data.portfolio[stock.ticker].averageCost;
-
-                }
+            }
 
         });
 
-}
+    }
 
-}
+    await loadMarket();
+
     loadShop();
     loadStocks();
-    loadMarket();
     updateUI();
+
+}
 
 
 function logout(){
