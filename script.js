@@ -558,15 +558,30 @@ async function loadCloudSave(){
             data.achievements;
         }
 
-        if (data.stocks) {
-            stocks = data.stocks.map((saved, i) => ({
-                ...stocks[i], 
-                ...saved
-        }));
+        if(data.portfolio){
+
+            stocks.forEach(stock=>{
+
+                if(data.portfolio[stock.ticker]){
+
+                    stock.owned=
+
+                    data.portfolio[stock.ticker].owned;
+
+                    stock.averageCost=
+
+                    data.portfolio[stock.ticker].averageCost;
+
+                }
+
+        });
+
+}
 
 }
     loadShop();
     loadStocks();
+    await loadMarket();
     updateUI();
 
 }
@@ -2310,6 +2325,8 @@ updateUI();
 
 openStock(selectedStock);
 
+savePortfolio();
+
 saveToCloud();
 
 };
@@ -2390,8 +2407,87 @@ if(!document.getElementById("stockPage").classList.contains("hidden"))
 
 openStock(selectedStock);
 
+savePortfolio();
+
 saveToCloud();
 
 }
 
 setInterval(updateStockMarket,90000);
+setInterval(saveMarket,90000);
+
+async function savePortfolio(){
+
+    if(!uid) return;
+
+    const portfolio={};
+
+    stocks.forEach(stock=>{
+
+        portfolio[stock.ticker]={
+
+            owned:stock.owned,
+
+            averageCost:stock.averageCost
+
+        };
+
+    });
+
+    await updateDoc(
+
+        doc(db,"players",uid),
+
+        {
+
+            portfolio
+
+        }
+
+    );
+
+}
+
+async function loadMarket(){
+
+    const docs=["CSH","GLD","TEC","CRY"];
+
+    for(let i=0;i<docs.length;i++){
+
+        const snap=await getDoc(
+
+            doc(db,"market",docs[i])
+
+        );
+
+        if(snap.exists()){
+
+            stocks[i]={
+
+                ...stocks[i],
+
+                ...snap.data()
+
+            };
+
+        }
+
+    }
+
+}
+
+async function saveMarket(){
+
+    for(const stock of stocks){
+
+        await setDoc(
+
+            doc(db,"market",stock.ticker),
+
+            stock
+
+        );
+
+    }
+
+}
