@@ -2472,6 +2472,8 @@ async function loadMarket() {
 async function saveMarket(){
 
     for(const stock of stocks){
+        
+        console.log("Saving Market Prices");
 
         await setDoc(
 
