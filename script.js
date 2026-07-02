@@ -581,7 +581,7 @@ async function loadCloudSave(){
 }
     loadShop();
     loadStocks();
-    await loadMarket();
+    loadMarket();
     updateUI();
 
 
