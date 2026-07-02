@@ -2433,6 +2433,8 @@ async function savePortfolio(){
 
     });
 
+    console.log("Saving Stock Portfolio");
+
     await updateDoc(
 
         doc(db,"players",uid),
