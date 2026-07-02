@@ -2447,31 +2447,23 @@ async function savePortfolio(){
 
 }
 
-async function loadMarket(){
+async function loadMarket() {
 
-    const docs=["CSH","GLD","TEC","CRY"];
+    console.log("Loading market...");
 
-    for(let i=0;i<docs.length;i++){
+    const docs = ["CSH", "GLD", "TEC", "CRY"];
 
-        const snap=await getDoc(
+    for (const id of docs) {
 
-            doc(db,"market",docs[i])
+        console.log("Loading", id);
 
-        );
+        const snap = await getDoc(doc(db, "market", id));
 
-        if(snap.exists()){
-
-            stocks[i]={
-
-                ...stocks[i],
-
-                ...snap.data()
-
-            };
-
-        }
+        console.log(id, snap.exists(), snap.data());
 
     }
+
+    console.log("Market loaded.");
 
 }
 
